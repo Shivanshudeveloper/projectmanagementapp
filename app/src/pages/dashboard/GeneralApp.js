@@ -19,6 +19,7 @@ import {
   AppTotalActiveUsers,
   AppTopInstalledCountries
 } from '../../components/_dashboard/general-app';
+import Appbar from '../../components/Appbar';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,7 @@ export default function GeneralApp() {
   const { user } = useAuth();
 
   return (
+    <>
     <Page title="General: App | Minimal-UI">
       <Container maxWidth="xl">
         <Grid container spacing={3}>
@@ -86,5 +88,7 @@ export default function GeneralApp() {
         </Grid>
       </Container>
     </Page>
+    <Appbar />
+    </>
   );
 }

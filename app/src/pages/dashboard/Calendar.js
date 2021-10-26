@@ -2,6 +2,8 @@ import FullCalendar from '@fullcalendar/react'; // => request placed at the top
 import listPlugin from '@fullcalendar/list';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import timelinePlugin from '@fullcalendar/timeline';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Icon } from '@iconify/react';
@@ -21,6 +23,7 @@ import Page from '../../components/Page';
 import { DialogAnimate } from '../../components/animate';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { CalendarForm, CalendarStyle, CalendarToolbar } from '../../components/_dashboard/calendar';
+import Appbar from '../../components/Appbar';
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +42,7 @@ export default function Calendar() {
   const calendarRef = useRef(null);
   const { enqueueSnackbar } = useSnackbar();
   const [date, setDate] = useState(new Date());
-  const [view, setView] = useState(isMobile ? 'listWeek' : 'dayGridMonth');
+  const [view, setView] = useState(isMobile ? 'dayGridMonth' : 'dayGridMonth');
   const selectedEvent = useSelector(selectedEventSelector);
   const { events, isOpenModal, selectedRange } = useSelector((state) => state.calendar);
 
@@ -51,7 +54,7 @@ export default function Calendar() {
     const calendarEl = calendarRef.current;
     if (calendarEl) {
       const calendarApi = calendarEl.getApi();
-      const newView = isMobile ? 'listWeek' : 'dayGridMonth';
+      const newView = isMobile ? 'dayGridMonth' : 'dayGridMonth';
       calendarApi.changeView(newView);
       setView(newView);
     }
@@ -147,6 +150,7 @@ export default function Calendar() {
   };
 
   return (
+    <>
     <Page title="Calendar | Minimal-UI">
       <Container maxWidth="xl">
         <HeaderBreadcrumbs
@@ -161,6 +165,16 @@ export default function Calendar() {
               New Event
             </Button>
           }
+        />
+
+        <Autocomplete
+          id="combo-box-demo"
+          freeSolo
+          options={top100Films}
+          getOptionLabel={(option) => option.title}
+          fullWidth
+          style={{ marginBottom: '10px' }}
+          renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
         />
 
         <Card>
@@ -205,5 +219,13 @@ export default function Calendar() {
         </DialogAnimate>
       </Container>
     </Page>
+    <Appbar />
+    </>
   );
 }
+
+
+const top100Films = [
+  { title: 'John Doe', year: 1994 },
+  { title: 'Mickle Ckark', year: 1972 },
+];
