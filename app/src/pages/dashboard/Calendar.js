@@ -149,6 +149,12 @@ export default function Calendar() {
     dispatch(closeModal());
   };
 
+  const [search, setsearch] = useState('John Doe');
+
+  useEffect(() => {
+    console.log(search);
+  }, [search])
+
   return (
     <>
     <Page title="Calendar | Minimal-UI">
@@ -171,46 +177,95 @@ export default function Calendar() {
           id="combo-box-demo"
           freeSolo
           options={top100Films}
+          onChange={(event, newValue) => {
+            setsearch(newValue.title);
+          }}
           getOptionLabel={(option) => option.title}
           fullWidth
           style={{ marginBottom: '10px' }}
           renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
         />
 
-        <Card>
-          <CalendarStyle>
-            <CalendarToolbar
-              date={date}
-              view={view}
-              onNextDate={handleClickDateNext}
-              onPrevDate={handleClickDatePrev}
-              onToday={handleClickToday}
-              onChangeView={handleChangeView}
-            />
-            <FullCalendar
-              weekends
-              editable
-              droppable
-              selectable
-              events={events}
-              ref={calendarRef}
-              rerenderDelay={10}
-              initialDate={date}
-              initialView={view}
-              dayMaxEventRows={3}
-              eventDisplay="block"
-              headerToolbar={false}
-              allDayMaintainDuration
-              eventResizableFromStart
-              select={handleSelectRange}
-              eventDrop={handleDropEvent}
-              eventClick={handleSelectEvent}
-              eventResize={handleResizeEvent}
-              height={isMobile ? 'auto' : 720}
-              plugins={[listPlugin, dayGridPlugin, timelinePlugin, timeGridPlugin, interactionPlugin]}
-            />
-          </CalendarStyle>
-        </Card>
+        {
+          search === "John Doe" ? (
+            <Card>
+              <CalendarStyle>
+                <CalendarToolbar
+                  date={date}
+                  view={view}
+                  onNextDate={handleClickDateNext}
+                  onPrevDate={handleClickDatePrev}
+                  onToday={handleClickToday}
+                  onChangeView={handleChangeView}
+                />
+                <FullCalendar
+                  weekends
+                  editable
+                  droppable
+                  selectable
+                  events={events}
+                  ref={calendarRef}
+                  rerenderDelay={10}
+                  initialDate={date}
+                  initialView={view}
+                  dayMaxEventRows={3}
+                  eventDisplay="block"
+                  headerToolbar={false}
+                  allDayMaintainDuration
+                  eventResizableFromStart
+                  select={handleSelectRange}
+                  eventDrop={handleDropEvent}
+                  eventClick={handleSelectEvent}
+                  eventResize={handleResizeEvent}
+                  height={isMobile ? 'auto' : 720}
+                  plugins={[listPlugin, dayGridPlugin, timelinePlugin, timeGridPlugin, interactionPlugin]}
+                />
+              </CalendarStyle>
+            </Card>
+          ) : (
+            <Card>
+              <CalendarStyle>
+                <CalendarToolbar
+                  date={date}
+                  view={view}
+                  onNextDate={handleClickDateNext}
+                  onPrevDate={handleClickDatePrev}
+                  onToday={handleClickToday}
+                  onChangeView={handleChangeView}
+                />
+                <FullCalendar
+                  weekends
+                  editable
+                  droppable
+                  selectable
+                  events={[
+                    { title: 'This is a event 1', date: '2021-10-01' },
+                    { title: 'Call', date: '2021-10-28' },
+                    { title: 'Work', date: '2021-10-06' },
+                    { title: 'Done', date: '2021-10-12' }
+                  ]}
+                  ref={calendarRef}
+                  rerenderDelay={10}
+                  initialDate={date}
+                  initialView={view}
+                  dayMaxEventRows={3}
+                  eventDisplay="block"
+                  headerToolbar={false}
+                  allDayMaintainDuration
+                  eventResizableFromStart
+                  select={handleSelectRange}
+                  eventDrop={handleDropEvent}
+                  eventClick={handleSelectEvent}
+                  eventResize={handleResizeEvent}
+                  height={isMobile ? 'auto' : 720}
+                  plugins={[listPlugin, dayGridPlugin, timelinePlugin, timeGridPlugin, interactionPlugin]}
+                />
+              </CalendarStyle>
+            </Card>
+          )
+        }
+
+        
 
         <DialogAnimate open={isOpenModal} onClose={handleCloseModal}>
           <DialogTitle>{selectedEvent ? 'Edit Event' : 'Add Event'}</DialogTitle>
